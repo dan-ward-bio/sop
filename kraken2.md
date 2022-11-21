@@ -42,7 +42,7 @@ Before running Recentrifuge, you need to download a database of taxa from NCBI. 
 
 Now run recentrifuge
 
-    rcf -n <path to retaxdump> -k kraken_output.kraken
+    rcf -n <path to 'taxdump' folder> -k kraken_output.kraken
 
 On multiple outputs:
 
