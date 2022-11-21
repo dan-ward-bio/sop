@@ -29,7 +29,7 @@ Run kraken2 client
     
 If you want to loop across multiple files:
     
-    ls *.fastq | while read -r line ; do kraken2_client -b --host-ip plum-g1 --sequence $line --report $line.report > $line.kraken ; done
+    ls *.fastq | while read -r line ; do kraken2_client --host-ip plum-g1 --sequence $line --report $line.report > $line.kraken ; done
     
 ### 3) Visualise the kraken2 output using RCF.
 
