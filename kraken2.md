@@ -25,7 +25,7 @@ Activate the conda env
 
 Run kraken2 client
     
-    kraken2_client --host-ip plum-g1 --sequence <sequence file> --report <report output destination > kraken_output.kraken
+    kraken2_client --host-ip plum-g1 --sequence <sequence file> --report <report output destination + filename > kraken_output.kraken
     
 If you want to loop across multiple files:
     
