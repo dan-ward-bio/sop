@@ -25,9 +25,10 @@ Activate the conda env
 
 Run kraken2 client
     
-    kraken2_client -b --host-ip plum-g1 --sequence <sequence file> --report <report output destination> > kraken_output.kraken
+    kraken2_client -b --host-ip plum-g1 --sequence <sequence file> --report <report output destination > kraken_output.kraken
     
 If you want to loop across multiple files:
+    
     ls *.fastq | while read -r line ; do kraken2_client -b --host-ip plum-g1 --sequence $line --report $line.report > $line.kraken ; done
     
 ### 3) Visualise the kraken2 output using RCF.
