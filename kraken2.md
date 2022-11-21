@@ -33,6 +33,7 @@ If you want to loop across multiple files:
     
 ### 3) Visualise the kraken2 output using RCF.
 
+    conda deactivate
     pip install recentrifuge
 
 Before running Recentrifuge, you need to download a database of taxa from NCBI. Put this in a memorable place so that you don’t have to keep downloading it:
