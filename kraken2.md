@@ -37,6 +37,7 @@ If you want to loop across multiple files:
     pip install recentrifuge
 
 Before running Recentrifuge, you need to download a database of taxa from NCBI. Put this in a memorable place so that you don’t have to keep downloading it:
+    
     retaxdump
 
 Now run recentrifuge
