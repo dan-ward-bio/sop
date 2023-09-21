@@ -29,7 +29,7 @@ Run kraken2 client
     
 If you want to loop across multiple files:
     
-    ls *.fastq | while read -r line ; do kraken2_client --host-ip plum-g1 --sequence $line --report $line.report > $line.kraken ; done
+    ls *.fastq.gz | while read -r line ; do kraken2_client --host-ip plum-g1 --sequence $line --report $line.report > $line.kraken ; done
     
 ### 3) Visualise the kraken2 output using RCF.
 
@@ -46,7 +46,7 @@ Now run recentrifuge
 
 On multiple outputs:
 
-    ls *.kraken | while read -r line ; do rcf <path to retaxdump> -k $line ; done
+    ls *.kraken | while read -r line ; do rcf -n <path to retaxdump> -k $line ; done
     
 If successful, you'll find a HTML document with a visualisation for classification. 
      

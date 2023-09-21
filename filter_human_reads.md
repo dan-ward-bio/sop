@@ -9,6 +9,7 @@ Below is a guide to:
 
 ### Dependencies:
     conda install -c bioconda seqtk
+    conda install -c bioconda minimap2
 
 
 ### 1) Build the Minimap2 index.
@@ -18,7 +19,7 @@ Run Minimap2 on a machine with > 50 GB RAM, then transfer the MMI to the local m
     minimap2 -x map-ont -d hs38-ont.mmi /mnt/hs38.fa
 
     
-### 2) Mapping human reads.
+### 2) Grouping fastq files.
 
 On the local machine, concatenate  the fastq files from the MinKNOW output directory and recompress them
     
@@ -26,14 +27,16 @@ On the local machine, concatenate  the fastq files from the MinKNOW output direc
     cd <MINKNOW DIRECTORY>
     for i in `ls` ; do cd ${i} ; zcat *.fastq.gz | gzip > ../combined/${i}.fastq.gz ;  cd ../ ; done
 
+### 3) Mapping human reads.
+
 Move back to the combined folder, run minimap2 in a loop over each barcoded file
     
-    for i in `ls *fastq.gz | sed 's/.fastq.gz//g'` ; do minimap2 -ax map-ont -a ~/refeq/GRCh38_latest_genomic.fna.mmi ${i}.fastq.gz | cut -f1 | grep -v @ > human_readnames_${i}.txt  & done
-    
-Now use seqtk to remove the reads from the original fastq file:
-    
-    for i in `ls *fastq.gz | sed 's/.fastq.gz//g'` ; do  seqtk subseq ${i}.fastq.gz human_readnames_${i}.txt > ${i}_human_filtered.fastq.gz ; done
-    
+    for i in `ls *fastq.gz | sed 's/.fastq.gz//g'` ; do minimap2 -ax map-ont -a ~/refeq/GRCh38_latest_genomic.fna.mmi ${i}.fastq.gz | samtools view -f 4 | samtools fastq - | gzip > ${i}_human_filtered.fastq.gz ; done
 
-     
 
+### Example: Kraken2 analysis on unfiltered and filtered
+
+Check out these kronagrams demonstrating the removal of human reads from the original fastq:
+
+#### [Unfiltered](https://link-url-here.org)
+#### [Human-filtered](https://link-url-here.org)
