@@ -20,7 +20,7 @@ Run Minimap2 on a machine with > 50 GB RAM, then transfer the MMI to the local m
     
 ### 2) Mapping human reads.
 
-On the local machine, group together the fastq files from the MinKNOW output directory
+On the local machine, concatenate  the fastq files from the MinKNOW output directory and recompress them
     
     mkdir combined
     cd <MINKNOW DIRECTORY>
@@ -28,11 +28,11 @@ On the local machine, group together the fastq files from the MinKNOW output dir
 
 Move back to the combined folder, run minimap2 in a loop over each barcoded file
     
-    for i in `ls *fastq.gz | sed 's/.fastq.gz//g'` ; do minimap2 -ax map-ont -a ../../Database/Human/GRCh38_latest_genomic.fna.mmi ${i}.fastq.gz | cut -f1 | grep -v @ > human_reads_${i}.txt  ; done
+    for i in `ls *fastq.gz | sed 's/.fastq.gz//g'` ; do minimap2 -ax map-ont -a ~/refeq/GRCh38_latest_genomic.fna.mmi ${i}.fastq.gz | cut -f1 | grep -v @ > human_readnames_${i}.txt  & done
     
 Now use seqtk to remove the reads from the original fastq file:
     
-    ls *.fastq | while read -r line ; do kraken2_client --host-ip plum-g1 --sequence $line --report $line.report > $line.kraken ; done
+    for i in `ls *fastq.gz | sed 's/.fastq.gz//g'` ; do  seqtk subseq ${i}.fastq.gz human_readnames_${i}.txt > ${i}_human_filtered.fastq.gz ; done
     
 
      
