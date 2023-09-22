@@ -3,6 +3,8 @@
 ### Document version: 1.0
 ##### Description: A guide for removing human reads from a fastq file
 
+## Method 1: Exclusion through mapping
+
 Below is a guide to:
 1) Map reads to the human genome, with a precompiled Minimap2 index.
 2) Use seqtk to remove reads from the original fastq
@@ -34,9 +36,32 @@ Move back to the combined folder, run minimap2 in a loop over each barcoded file
     for i in `ls *fastq.gz | sed 's/.fastq.gz//g'` ; do minimap2 -ax map-ont -a ~/refeq/GRCh38_latest_genomic.fna.mmi ${i}.fastq.gz | samtools view -f 4 | samtools fastq - | gzip > ${i}_human_filtered.fastq.gz ; done
 
 
-### Example: Kraken2 analysis on unfiltered and filtered
+## Method 2: Mini Kraken2 human database
 
-Check out these kronagrams demonstrating the removal of human reads from the original fastq:
+Below is a guide to:
+1) Download the custom kraken2 database
+2) Run kraken2 to classify reads on a custom database
+3) Exclude reads using krakentools 
 
-#### [Unfiltered](https://link-url-here.org)
-#### [Human-filtered](https://link-url-here.org)
+### Dependencies:
+    conda install -c bioconda krakentools
+    conda install -c bioconda kraken2
+
+
+### 1) 
+Download the kraken database and unzip it
+    
+    dan@s8:/mnt/storage8/dan/kraken/human_kraken2_db.tar.gz
+    gunzip human_kraken2_db.tar.gz
+    
+### 2) Grouping fastq files.
+
+Run kraken2 on the local machine. Do not use the remote kraken server.
+    
+    For i in `ls *.fastq.gz | sed 's/.fastq.gz//g'` ; do kraken2 --use-names --threads 4 --db /path/to/database --report ${i}.kraken.report ${i}.fastq.gz > ${i}.kraken ; done
+
+### 3) Exclude reads using krakentools
+     For i in `ls *.fastq.gz | sed 's/.fastq.gz//g'` ; do extract_kraken_reads.py -s ${i}.fastq.gz -k ${i}.kraken --taxid 9606 --exclude --include-parents --fastq-output -o ${i}.filtered.fastq ; gzip ${i}.filtered.fastq ; done
+    
+    
+    
