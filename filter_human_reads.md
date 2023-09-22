@@ -48,20 +48,19 @@ Below is a guide to:
     conda install -c bioconda kraken2
 
 
-### 1) 
-Download the kraken database and unzip it
+### 1) Download the kraken database and unzip it
     
     dan@s8:/mnt/storage8/dan/kraken/human_kraken2_db.tar.gz
-    gunzip human_kraken2_db.tar.gz
+    tar -xf human_kraken2_db.tar.gz
     
 ### 2) Grouping fastq files.
 
 Run kraken2 on the local machine. Do not use the remote kraken server.
     
-    For i in `ls *.fastq.gz | sed 's/.fastq.gz//g'` ; do kraken2 --use-names --threads 4 --db /path/to/database --report ${i}.kraken.report ${i}.fastq.gz > ${i}.kraken ; done
+    for i in `ls *.fastq.gz | sed 's/.fastq.gz//g'` ; do kraken2 --use-names --threads 20 --db ~/past/to/database --report ${i}.kraken.report ${i}.fastq.gz > ${i}.kraken ; done
 
 ### 3) Exclude reads using krakentools
-     For i in `ls *.fastq.gz | sed 's/.fastq.gz//g'` ; do extract_kraken_reads.py -s ${i}.fastq.gz -k ${i}.kraken --taxid 9606 --exclude --include-parents --fastq-output -o ${i}.filtered.fastq ; gzip ${i}.filtered.fastq ; done
+     for i in `ls *.fastq.gz | sed 's/.fastq.gz//g'` ; do extract_kraken_reads.py -s ${i}.fastq.gz -k ${i}.kraken --report ${i}.kraken.report --taxid 9606 --exclude --include-parents --fastq-output -o ${i}.filtered.fastq ; gzip ${i}.filtered.fastq  ; done
     
     
     
