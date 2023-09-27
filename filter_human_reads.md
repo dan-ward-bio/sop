@@ -7,7 +7,7 @@ Below is a guide to:
 1) Map reads to the human genome, with a precompiled Minimap2 index.
 2) Use seqtk to remove reads from the original fastq
 
-### Before starting) Group fastq files.
+### Before starting: Group fastq files.
 
 On the local machine, concatenate  the fastq files from the MinKNOW output directory and recompress them
     
