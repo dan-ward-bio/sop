@@ -13,7 +13,7 @@ On the local machine, concatenate  the fastq files from the MinKNOW output direc
     
     mkdir combined
     cd <MINKNOW DIRECTORY>
-    for i in `ls` ; do cd ${i} ; zcat *.fastq.gz | gzip > ../combined/${i}.fastq.gz ;  cd ../ ; done
+    for i in `ls` ; do cd ${i} ; zcat *.fastq.gz | gzip > ../../combined/${i}.fastq.gz ;  cd ../ ; done
 
 ## Method 1: Exclusion through mapping
 
@@ -53,7 +53,7 @@ Below is a guide to:
     dan@s8:/mnt/storage8/dan/kraken/human_kraken2_db.tar.gz
     tar -xf human_kraken2_db.tar.gz
     
-### 2) Grouping fastq files.
+### 2) Running kraken2.
 
 Run kraken2 on the local machine. Do not use the remote kraken server.
     
