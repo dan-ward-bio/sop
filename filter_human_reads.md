@@ -3,11 +3,19 @@
 ### Document version: 1.0
 ##### Description: A guide for removing human reads from a fastq file
 
-## Method 1: Exclusion through mapping
-
 Below is a guide to:
 1) Map reads to the human genome, with a precompiled Minimap2 index.
 2) Use seqtk to remove reads from the original fastq
+
+### Before starting) Group fastq files.
+
+On the local machine, concatenate  the fastq files from the MinKNOW output directory and recompress them
+    
+    mkdir combined
+    cd <MINKNOW DIRECTORY>
+    for i in `ls` ; do cd ${i} ; zcat *.fastq.gz | gzip > ../combined/${i}.fastq.gz ;  cd ../ ; done
+
+## Method 1: Exclusion through mapping
 
 ### Dependencies:
     conda install -c bioconda seqtk
@@ -20,16 +28,8 @@ Run Minimap2 on a machine with > 50 GB RAM, then transfer the MMI to the local m
 
     minimap2 -x map-ont -d hs38-ont.mmi /mnt/hs38.fa
 
-    
-### 2) Grouping fastq files.
 
-On the local machine, concatenate  the fastq files from the MinKNOW output directory and recompress them
-    
-    mkdir combined
-    cd <MINKNOW DIRECTORY>
-    for i in `ls` ; do cd ${i} ; zcat *.fastq.gz | gzip > ../combined/${i}.fastq.gz ;  cd ../ ; done
-
-### 3) Mapping human reads.
+### 2) Mapping human reads.
 
 Move back to the combined folder, run minimap2 in a loop over each barcoded file
     
