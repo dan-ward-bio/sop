@@ -15,8 +15,19 @@ Install the client using conda or mamba.
 
     mamba create -n kraken2 -c conda-forge -c epi2melabs kraken2-server
     conda create -n kraken2 -c conda-forge -c epi2melabs kraken2-server
-    
-### 2) Run the classifier from a remote server.
+
+### 2) Start the server.
+
+Launching a screen with a persistent server
+
+    screen -S kraken2_server
+    conda activate kraken2
+    kraken2_server --thread-pool 10 --max-requests 2 --host-ip <host-ip>:8080 --db <path to db>
+
+
+
+
+### 3) Run the classifier from a remote server.
 
 Run the client on your set of reads.
 Activate the conda env
